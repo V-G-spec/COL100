@@ -1,0 +1,50 @@
+
+fun mini(a:real,b:real,c:real,d:real)=
+	let
+		val ls=[a,b,c,d];
+		fun sort([x])=[x]
+			|sort(x::y::ls)=
+				if x<y then x::sort(y::ls)
+				else y::sort(x::ls)
+	in List.nth(sort(ls),0)
+	end;
+	fun maxi(a:real,b:real,c:real,d:real)=
+	let
+		val ls=[a,b,c,d];
+		fun sort([x])=[x]
+			|sort(x::y::ls)=
+				if x<y then x::sort(y::ls)
+				else y::sort(x::ls)
+	in List.nth(sort(ls),3)	
+	end;
+		
+
+fun make_interval(x:real,y:real)= 
+
+	if x<y then (x,y)
+	else (y,x);	
+
+
+
+fun intadd((a,b),(c,d))= make_interval(a+c,b+d);
+
+
+
+fun intsubtract((a,b),(c,d))= make_interval(a-c,b-d);
+
+
+
+fun intmult((a,b),(c,d))=
+		let 
+		val x=mini(b*c,a*c,a*d,b*d);
+		val y=maxi(b*c,a*c,a*d,b*d);
+	in make_interval(x,y)
+	end;
+
+
+fun intdiv((a,b),(c,d)) = 
+	
+	if Real.==(c,0.0) andalso Real.!=(d,0.0) then intmult((a,b),(1.0/d,Real.posInf))
+	else if Real.==(d,0.0)  andalso Real.!=(c,0.0) then intmult((a,b),(Real.negInf,1.0/c))
+	else if Real.==(c,0.0) andalso Real.==(d,0.0) then intmult((a,b),(Real.negInf,Real.posInf))
+	else intmult((a,b),(1.0/c,1.0/d));

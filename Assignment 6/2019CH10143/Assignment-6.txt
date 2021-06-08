@@ -1,0 +1,352 @@
+# QUESTION 1
+########
+########
+########
+def remdup(a):
+    #assert: a[0..-1] is established with r as the size of this matrix that is a constant
+    n=len(a)
+    r=len(a)
+    i=0;
+    while(i<n):
+        j=i+1
+        while(j<n):
+            if (a[i]==a[j]):
+                a.pop(j)
+                a.append(0)
+                n-=1
+                #assert:all elements in a[0..i+1] are unique
+                #assert: a[n..r-1] are all zeroes
+            else:
+                break
+
+        i+=1
+    #assert: a is the new array with duplicates removed and n is the new size
+    return (a,n)
+
+
+arr=[0,0,1,2,2,2,7,8,8,9,9,9,9,11,11,11,11,12,13,14,15,15,16,16,16,16,16,16,16,16,17,18,20,20,20];
+print("\t The array is: ",arr)
+(arr,y)=remdup(arr)
+print("\t The new array is: ",arr,"\n \t The new size is: ",y)
+
+#Time Complexity:
+#Let array size be n
+#Worst case time complexity is when all elements are same in which case after all iterations of j for i=0, n will be equal to 1. Therefore time complexity is O(n)
+#Best case is when all elements are different, j will only get 1 value for any i and therefore the time complexity is O(n)
+#Hence the time complexity of given algorithm is O(n)
+
+
+
+
+# QUESTION 2
+#
+#
+########
+########
+########
+
+def partition(a,x):
+    #assert: a[left..right] is established and x is the partition value
+    n=len(a)
+    i=0
+    j=n-1
+    while(i<j):
+        if a[i]>=x and a[j]<=x:
+            a[i],a[j]=a[j],a[i]     #assert: Exchange the wrongly partitioned pair
+            i+=1
+            j-=1
+            #assert: Extend both partitions inward by one element
+        elif a[i]<x:
+            i+=1    #assert:Extend the left partition while elements are less than or equal to x
+        else:
+            j-=1    #assert:Extend the right partition while elements are greater than x
+    return(a,i)
+    #assert: a is the new partitioned array and i is the partition index st a[i]<x<a[i+1]
+
+arr=[28,26,25,11,16,12,24,29,6,10]
+print(arr)
+(x,y)=(partition(arr,17))
+print("Partitioned Array: ",x,"\n Partition index: ",y)
+
+#Time Complexity:
+#Worst case time complexity is when element to be partitioned about is greater than/smaller than every element in the array in which case it will be O(n)
+#Best case time complexity is when array is already partitioned in which case it will be O(n/2)
+#We know that for any general array/element number of values attained by i + number of values attained by j = n and n-1>i,j>0
+
+
+
+
+
+
+#QUESTION 3
+# 
+#
+#
+#######
+#######
+#######
+def partition(a,l,r):
+    #assert: Previous algo but partitions between l and r
+    # It considers the first element as a pivot and moves all smaller element to left of it and greater elements to right
+    x=a[l]
+    n=len(a)
+    i=l
+    j=r
+    while(i<j):
+        if a[i]>=x and a[j]<=x:
+            a[i],a[j]=a[j],a[i]
+            i+=1
+            j-=1
+        elif a[i]<x:
+            i+=1
+        else:
+            j-=1
+    return(a,i)
+
+def kth(a,l,r,k):
+    if (k>0 and k<= r-l+1):
+        # Partition the array around last element and get position of the pivot element in partioned array
+        (array,pos_i)=partition(a,l,r)
+
+        # if position is same as k
+        if (pos_i-l==k-1):
+            return a[pos_i]
+        # If position is more then k, apply recursion for left sub array
+        if (pos_i-l>k-1):
+            return kth(a,l,pos_i-1,k)
+        else: #apply recursion for the right sub array
+            return kth(a,pos_i+1,r,k-pos_i+l-1)
+    else:
+        return ": Seriously? Imagine asking for 7th biggest slice of pizza with 6 pieces"
+
+arr = [12, 3, 5, 7, 4, 19, 26]
+n = len(arr)
+k = 3;
+print(k,"th smallest element is",kth(arr, 0, n - 1, k))
+
+#Time Complexity:
+#The time comlpexity depends upon the pivot chosen
+#If the pivot decreases size of array by 1 element (Worst case) the time complexity is O(n^2)
+#If the pivot decreases size of array by some fraction (Maybe n/2) (Best case) the time complexity is O(n) (=n/2+n/4+n/8+.... < n)
+
+
+
+
+#QUESTION 4 
+#
+#
+#
+######
+######
+######
+def lms(a):
+    """It basically finds length of longest monotonic subsequence till ith element of the array"""
+    n=len(a)
+    maxi=[]
+    for i in range(n):
+        maxi.append(1) #initiate a matrix with all elements as 1 because even if all numbers are sorted in descending order in given array, length of longest monotonix subsequence till that element wiuld be 1 (that elementitself)
+    i=1
+    while(i<n):
+        for j in range(i): # j varies from 0 to i
+            if a[i]>a[j]: #if ith element > jth element, the last term of that subsequence would now be i
+                maxi[i]=max(maxi[j]+1,maxi[i]) #Since we have to find length of longest to the point, we check if by some other path the length of longest monotonic subsequence is not already more
+        i+=1
+    return max(maxi)
+
+print("The size of largest monotonic subsequence is:",lms([1,9,6,2,9,4,7,3,11,8,14,16]))
+
+#Time complexity:
+#T(n)=Σ(i-1) + c = n(n-1)/2 - n + c = n(n-3)/2= O(n^2)
+
+
+
+
+#QUESTION 5 (Long Division)
+#
+#
+#
+######
+######
+######
+import copy
+def subtract_lists(a,b):
+    """Subtracts 2 arrays, given that number stored in a>= number stored in b. Otherwie, it reutns 0"""
+    l=copy.deepcopy(a) #to avoid changes in original array
+    m=copy.deepcopy(b)
+    while(l[0]==0): #To remove any redundant zeroes in front
+        l.pop(0)
+        if len(l)==0: #If l is an empty array, assign it value 0
+            l=[0]
+            break
+    while(m[0]==0): ##To remove any redundant zeroes in front
+        m.pop(0)
+        if len(m) == 0: #If m is an empty array, assign it value 0
+            m.append(0)
+            break
+    x=len(l)
+    y=len(m)
+    if x==y:
+        for i in range(x): #To return 0 if for divisor and dividend of same length, dividend<divisor
+            if l[i]<m[i]:
+                return [0]
+            elif l[i] == m[i]:
+                continue
+            else:
+                break
+    elif x<y:
+        return [0] #if number of digits in dividend<number of divisors in divisor, return 0
+    c=[]
+    l.insert(0,0) #append 0 in front of the dividend for terminal condition in subtraction
+    m.insert(0,0) #append 0 in front of the divisor for terminal condition in subtraction
+    for i in range(1,x-y+1): #ADding redundatn 0s, so that length of l and m is same
+        m.insert(0,0) #insert(x,y) implies insert y at x th position (This was for self clarification and not an assertion)
+    for i in range(x):
+        #grade school multiplication, Proof was part of Assignment-5
+        if l[-1-i]<m[-1-i]:
+            c.insert(0,10+l[-1-i]-m[-1-i])
+            l[-2-i]-=1
+        else:
+            c.insert(0,l[-1-i]-m[-1-i])
+    return c
+
+
+
+def checkzero(a):
+    """Checks if the given array has all elements as 0"""
+    b=copy.deepcopy(a) #To avoid changes in original matrix
+    k=[]
+    if b==k:
+        return True
+    elif b[0]==0:
+        b.pop(0)
+        return(checkzero(b))
+    else:
+        return False
+
+
+def division(dividend,divisor):
+    """Lezz divide it"""
+    rem=[] #intialize Remainder
+    quo=[] #intialize Quotient
+    if checkzero(divisor): #Division by 0 isn't possible
+        return "Division Error";
+    elif checkzero(dividend):
+        quo=[0]; rem=[0]
+        return (quo,rem)
+    else:
+        for i in range(len(dividend)): #Invariant: at ith iteration we know Quotient and Remainder for dividend=dividend[:i+1] and divisor
+            val=0
+            rem.append(dividend[i]) #In each iteration, it adds a digit from the dividend, just like long division
+            while(checkzero(subtract_lists(divisor,rem))): #checks if divisor<Remainder to get highest multiple of divisor less than dividend
+                val+=1 #to evaluate the val^th multiple of divisor
+                rem=subtract_lists(rem,divisor)
+            quo.append(val)
+        return (quo,rem)
+
+dividend=[2,6]
+divisor=[1,0]
+
+print(dividend,"/",divisor,"==>Quotient and Remainder:",division(dividend,divisor))
+
+#Time Complexity:
+#let n be size of dividend and divisor. The division function has n iterations with one assertion calling the subtraction function which again requires n iterations
+#Time Complexity=O(n^2)
+
+
+
+#QUESTION 5 (Other way 1)
+#
+#
+#
+######
+######
+######
+import copy
+def subtract_lists(a,b):
+    """Subtracts 2 arrays, given that number stored in a>= number stored in b. Otherwie, it reutns 0"""
+    l=copy.deepcopy(a) #to avoid changes in original array
+    m=copy.deepcopy(b)
+    while(l[0]==0): #To remove any redundant zeroes in front
+        l.pop(0)
+        if len(l)==0: #If l is an empty array, assign it value 0
+            l.append(0)
+            break
+    while(m[0]==0): ##To remove any redundant zeroes in front
+        m.pop(0)
+        if len(m) == 0: #If m is an empty array, assign it value 0
+            m.append(0)
+            break
+    x=len(l)
+    y=len(m)
+    if x==y:
+        for i in range(x): #To return 0 if for divisor and dividend of same length, dividend<divisor
+            if l[i]<m[i]:
+                return [0]
+            elif l[i] == m[i]:
+                continue
+            else:
+                break
+    elif x<y:
+        return [0] #if number of digits in dividend<number of divisors in divisor, return 0
+    c=[]
+    l.insert(0,0) #append 0 in front of the dividend for terminal condition in subtraction
+    m.insert(0,0) #append 0 in front of the divisor for terminal condition in subtraction
+    for i in range(1,x-y+1): #ADding redundatn 0s, so that length of l and m is same
+        m.insert(0,0) #insert(x,y) implies insert y at x th position (This was for self clarification and not an assertion)
+    for i in range(x):
+        #grade school multiplication, Proof was part of Assignment-5
+        if l[-1-i]<m[-1-i]:
+            c.insert(0,10+l[-1-i]-m[-1-i])
+            l[-2-i]-=1
+        else:
+            c.insert(0,l[-1-i]-m[-1-i])
+    return c
+
+
+def division(dividend,divisor):
+    """Division by repeated subtraction on the whole arrays"""
+    if divisor==[0]:
+        return "Nope, not possible. Imagine dividing 0 slices of Pizza among your 0 friends. Sad, isn't it?"
+    val=0
+    while(subtract_lists(dividend,divisor)!=[0]):
+        dividend=subtract_lists(dividend,divisor)
+        val+=1
+    if dividend==divisor:
+        dividend=[0]
+        val+=1
+    return (val,dividend)
+
+print(division([9,6],[2]))
+
+
+
+
+#QUESTION 5(OTHER WAY 2)
+#
+#
+#
+######
+######
+######
+def to_int(a):
+    val=0
+    for i in range(len(a)):
+        val=val*10+a[i]
+    return val
+def to_array(n):
+    a=[]
+    while(n!=0):
+        a.insert(-1,n%10)
+        n=n//10
+    return a
+
+
+def division(dividend,divisor):
+    """Simply convert array to integer and perform division and convert them back to arrays"""
+    div=to_int(dividend)
+    divi=to_int(divisor)
+    if (divi==0):
+        print("Nope, not possible. Imagine dividing 0 slices of Pizza among your 0 friends. Sad, isn't it?")
+    else:
+        print("The Quotient is:",to_array(div//divi),"The Remainder is:",to_array(div%divi))
+division([3,7,1],[0])

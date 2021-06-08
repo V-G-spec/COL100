@@ -1,0 +1,9 @@
+fun mult(a,b)=
+     if b=0 then 0
+     else
+	let fun iter(a,b,i,k)=
+		if i=0 then a
+		else if (i mod 2 =0) then iter(a,b,i div 2, 2*k)		
+		else iter(a+k,b,i div 2, 2*k)
+	in iter(0,b,b,a)
+	end;

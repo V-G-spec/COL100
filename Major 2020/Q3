@@ -1,0 +1,75 @@
+def pascal2(p,q):
+	if q>p:
+		print("Input not valid")
+	else:
+
+		#Extra array of size p to store the values of the previous row
+		prev_row = [0 for z in range(p+1)]
+
+		prev_row[0] = 1
+
+		#Iterate through each line
+		for i in range(1,p+1):
+			#Iterate through each element in the line but we start from the end so that the change in value does not affect the further computation
+			for j in range(i,-1,-1):
+				#Number at the edge and at the starting are all 1
+				if j==0 or j==i:
+					prev_row[j] = 1
+				#Number inside the triangle is the sum of 2 numbers above it but in 1D array represented as the number stored at that position and one to the left
+				# This was the reason of iterating j from i to 0 and not the other way around. This way when we use the element at the left, it won't affect the
+				# Aswer because at the time it still stores value from previous row
+				else:
+					prev_row[j] = (prev_row[j - 1] + prev_row[j])
+		#Show the p,q th element
+		print(prev_row[q])
+
+
+pascal2(0,0)
+pascal2(1,0)
+pascal2(1,1)
+pascal2(2,0)
+pascal2(2,1)
+pascal2(2,2)
+pascal2(4,1)
+
+
+
+#The space complexity is O(n) where n==p as an extra 1D matrix is taken of size p+1
+#The time complexity is O(n^2) as the forst loop is exexuted n times and the second loop is executed n times as well where n=p
+# Therefore O(n*n) = O(n^2)
+
+
+
+
+
+
+# For Space complexity of O(n^2) where n==p
+# def pascal(p,q):
+# 	if q>p:
+# 		print("Input not valid")
+# 	else:
+
+# 		#Extra array of size pxp to store the values
+# 		pascal_list = [[0 for x in range(p+1)] for y in range(p+1)]
+
+# 		pascal_list[0][0] = 1
+
+# 		#Iterate through each line
+# 		for i in range(1,p+1):
+# 			#Iterate through each element in the line
+# 			for j in range(i+1):
+# 				#Number at the edge and at the starting are all 1
+# 				if j==0 or j==i:
+# 					pascal_list[i][j] = 1
+# 				#Number inside the triangle is the sum of 2 numbers above it but in 2D array represented as directly above it and left-above
+# 				else:
+# 					pascal_list[i][j] = (pascal_list[i - 1][j - 1] + pascal_list[i - 1][j])
+# 		#Show the p,q th element
+# 		print(pascal_list[p][q])
+
+
+
+# #The space complexity is O(n^2) where n=p as an extra 2D matrix is taken of soze pxp
+# #The time complexity is O(n^2) as the forst loop is exexuted n times and the second loop is executed n times as well where n=p
+# # Therefore O(n*n) = O(n^2)
+

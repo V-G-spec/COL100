@@ -1,0 +1,22 @@
+fun high(a,b,iden,succ1,oper1,oper2,t,k)=
+	if a>b then iden
+	else high(succ1(a),b,oper1(t,iden),succ1,oper1,oper2,oper2(t,k,a),k);
+
+fun perfect(n)=
+	let
+		fun succ1(a)=
+			let fun iter(i)=
+				if (n mod i=0) then i
+				else iter(i+1)
+			in iter(a+1)
+			end;
+	in (n=high(1,n div 2,0,succ1,op+,fn (a,b,c)=>succ1(a),1,n))
+	end;	
+
+
+fun ex(x,n) = 
+	let
+		fun term(a:real,b,c) = a*real(b)/real(c);
+	in	
+		high(1,n,0.0,fn x=> x+1,op+,term,1.0,x)
+	end;

@@ -1,0 +1,121 @@
+(* Declaration of Originality
+ I solemnly swear that the work/code/algorithm in this file has entirely been done by me without any external help of any kind. For the c part, some help has been taken from one of the previous assignments that I have submitted
+
+ Regards
+ Vansh Gupta
+ 2019CH10143
+*)
+
+
+
+
+(* Ans 5.a
+
+# In general, for the given algorithm for k multiplications, the recurrence relation of time complexity is: T(n) = k*T(n/2) + O(n)
+# Let us find the time complexity for 4 multiplications
+# T(n) = 4*T(n/2) + O(n)
+# Let m = log n base 2
+# So by solving, we will get T(n) = 4^m T(1) + O(n) = O(n^( (log 4 base 2))) + O(n) = O(n^2) + O(n) = O(n^2) which does not optimise
+# Whereas, for k = 3 i.e. 3 multiplications, we will have the time complexity as O(n^(log 3 base 2)) = O(n^1.59) which is a major improvement
+
+# Ans 5.b.
+
+# For 3 multiplications we are basically splitting the problem in 3 parts of n/2 size
+# => T(n) = 3*T(n/2) + O(n)
+# Now, we can use master's theorem for time complexity as c=(1 or 0)<log 3 base 2
+# Therefore, T(n) = O(n^(log 3 base 2)) + O(n) = O(n^1.59)
+
+# Or we can simply just use recursion taking T(1) = 1
+# T(n) = 3^k * T(n/2^k)
+# k = log n base 2
+# T(n) = 3^log n base 2 T(1) = O(n^(log 3 base 2)) = O(n^log 3) = O(n^1.59)
+
+# Ans 5c.*)
+
+exception First_Integer_Smaller
+
+
+
+fun     intadd(l1,[])=l1
+
+	|intadd([],l2)=l2
+
+	|intadd(x1::[],y::ls)= if (x1+y)>9 then ((x1+y) mod 10::intadd([1],ls)) else (x1+y)::intadd([],ls)
+
+	|intadd(x1::x2::x,y1::y)=
+
+		if x1+y1>9 then ((x1+y1) mod 10)::intadd((x2+1)::x,y)
+
+		else (x1+y1)::intadd(x2::x,y);
+
+
+
+
+
+fun     intsub(l1,[])=l1
+
+	|intsub(x1::[],y::ls)= 
+
+				if (x1>=y) andalso ls=[] then [(x1-y)]   (*Because assumed that first integer>second*)
+
+				else raise First_Integer_Smaller 
+
+	|intsub(x1::x2::x,y1::y)=
+
+		if x1<y1 then (x1+10-y1)::intsub((x2-1)::x,y)
+
+		else (x1-y1)::intsub(x2::x,y);
+
+
+
+fun   iszero([])=true
+	|iszero(x::ls)= if x=0 then iszero(ls) else false;
+
+
+fun     intmult(ls1,[])=[]
+
+	|intmult([],ls2)=[]
+
+	|intmult(ls1,ls2)=
+
+		let
+
+			fun iter(x,y,z)=
+
+				if iszero(y) then z
+
+				else iter(x,intsub(y,[1]),intadd(z,x))
+
+		in 
+
+			if(List.length(ls1)>List.length(ls2)) then iter(ls1,ls2,[]) else iter(ls2,ls1,[])
+
+		end;
+
+
+
+(*Invariant for Proof of Correctness for intmult:*)
+
+
+
+(*INV: (After i iterations where, 1<i<number stored in list y, z=i*number stored in x)^(After y iterations we get number stored in y* number stored in x ) *)
+
+
+(*Proof of Correctness for intadd:*)
+
+(*Basis: intadd(l1, []) = l1
+This is equivalent to adding nothing to the number and returns same numbe. true
+
+IH: Let function return correct value for 2 lists of size m and n
+IS: Let lit be of size m+1 and n+1
+Let units and tens place be x1, x2 for first list and unit place for second list be y1
+We need to perform addition
+For x1+y1>9, 1 will be carried over to x2, Therefore x1+y1 mod 10 in ones and x2+1+y2 in tens. Therefore correct answer
+For x1+y1<9, we simply have to add them and nothing will be carried
+	Ao + 10A1 + Bo + 10B1 = Ao+Bo - 10 + 10((A1+1) + B1)
+*)
+
+(*Proof of Correctness for intsub:*)
+(*Exactly the same way as intadd but one thing will change, the final statement
+	Ao + 10A1 - Bo + 10B1 = (Ao+10 - Bo) + 10((A1-1) - B1)
+*)

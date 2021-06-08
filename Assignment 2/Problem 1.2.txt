@@ -1,0 +1,19 @@
+a. Time Complexity
+
+Time taken to calculate a*b solely depends upon a
+i.e.
+T(a)=T(a-1) + 1 {The +1 is for the testing condition}
+    =T(a-2) + 1 + 1 = T(a-2) +2
+    .
+    .
+    .
+    .
+T(a)=T(0) + a
+
+Let T(0)=1
+=> T(a)= a + 1
+
+
+
+b. Space Complexity
+	O(1)	

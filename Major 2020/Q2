@@ -1,0 +1,90 @@
+# Declaration of Originality
+# I solemnly swear that the work/code/algorithm in this file has entirely been done by me without any external help of any kind.
+
+# Regards
+# Vansh Gupta
+# 2019CH10143
+
+
+
+class Point:
+	
+	#Initialise a point of form (int x, int y)
+	def __init__(self, x, y):
+		self = Point(x, y)
+	#Return length between 2 points
+	def AlgebraicDistance(self, p2):
+		return getLengthWithCompass(self, p2)
+
+
+class Line:
+	
+	#Initialize the line object
+	def __init__(self, p1, p2):
+		self = Line(pt1, pt2)
+	
+	# returns a point or throws an exception
+	def Intersection_Of_Lines(self, line2):
+	    return intersectTwoLines(self, line2)
+
+	# returns either a pair of points ordered lexicographically on the line or throws an exception
+	def Line_Intersect_Circle(self, C):
+    	return intersectLineCircle(self, C)
+
+class Circle:
+  # initialises a circle object
+	def init(self, centre, radius):
+    	self = Circle(centre, radius)
+
+
+  # returns either a pair of points ordered lexicographically on the line or throws an exception
+  	def Circle_Intersect_Line(self, L):
+    	return intersectLineCircle(self, L)
+
+  # returns either a pair of points lexicographically (i.e. sorted first according to x-coordinate and then according to
+  # y-coordinate) or throws an exception.
+  	def intersection_of_Circles(self, C2):
+    	return intersectTwoCircles(self, C2)
+
+
+
+def perpendicularFromPointToLine(p: Point, l: Line) -> Line:
+    newX = int(random() * 10)
+    newY = int(random() * 10)
+    tmpLine = Line(p, Point(newX, newY))
+    intersectPoint = tmpLine.Intersection_Of_Lines(l)
+    firstRadius = intersectPoint.AlgebraicDistance(p)
+    c1 = Circle(p, firstRadius)
+    firstPoint, secondPoint = c1.Circle_Intersect_Line(l)
+    secondRadius = firstPoint.AlgebraicDistance(secondPoint)
+
+    C1 = Circle(firstPoint, secondRadius)
+    C2 = Circle(secondPoint, secondRadius)
+
+    finPointOne, finPointTwo = C1.intersection_of_Circles(C2)
+
+    return Line(finPointOne, finPointTwo)
+
+def squareRootOfInteger(x: int) -> float:
+    D = Point(0, 0)
+    B = Point(-1, 0)
+    A = Point(x, 0)
+    center = Point((x + 1) / 2, 0)
+    radius = center.AlgebraicDistance(B)
+    X = Circle(center, radius)
+
+    radius_2 = radius / 2
+    D_c1 = Circle(D, radius_2)
+    D_A, D_B = D_c1.Circle_Intersect_Line(Line(A, B))
+    D_c2 = Circle(D_A, radius)
+    D_c3 = Circle(D_B, radius)
+    D_p1, D_p2 = D_c2.intersection_of_Circles(D_c3)
+    L2 = Line(D_p1, D_p2)
+
+    C = X.Circle_Intersect_Line(L2)
+
+    return C.AlgebraicDistance(D)
+
+
+
+

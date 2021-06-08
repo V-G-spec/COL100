@@ -1,0 +1,12 @@
+fun mult(a,b)=
+     if b=0 then 0
+     else
+	let fun iter(a,b,i,k)=
+		if i=0 then a
+		else if (even(i)) then iter(a,b,halve(i), double(k))		
+		else iter(add(a,k),b,halve(dec(i)), double(k))
+	in iter(0,b,b,a)
+	end;
+
+//* Time complexity: O(log n)  [=O((log n)/(log 2))] *//
+//* Invariant: (0<=i<=b)^(After m iterations, i= (b div 2^m))^(k=(2^m * k0))^(i*k + a = a0 * b0)

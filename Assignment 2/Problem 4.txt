@@ -1,0 +1,20 @@
+INV : c0 = 4^k0 such that n div 4^k0 > 0 and n div 4^(k0+1) = 0. 
+After k iterations, 0 ≤ k ≤ k0, c = c0 div 4^k and i^2 ≤ n div (c*4) < (i + 1)^2
+
+fun intsqrt(n) =
+let fun maxpow(n) =
+	if (n div 4 = 0) then 1
+	else 4*maxpow(n div 4);
+
+     fun iter(i,n,c) =
+   	if (c = 0) then i
+	else if (2*i+1)*(2*i+1) > (n div c) then iter(2*i,n,c div 4)
+	else iter(2*i+1,n,c div 4);
+in
+	iter(0,n,maxpow(n))
+end;
+
+
+//* Invariant (Given in question): c0=4^k0 such that n div (4^k0) > 0 and n div (4^k0 + 1) =0. After k iterations, 0<=k<=k0, c = c0 div (4^k) and i^2 <= n div (c*4) < (i+1)^2.
+
+//* Since every iteration reduces k to k div 4. Therefore T(n)=O(log n) [=O((log n)/(log 4))]

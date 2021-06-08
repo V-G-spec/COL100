@@ -1,0 +1,54 @@
+import math
+def mult(a,b):
+
+    #Assert: ith row of matrix a is given by elements a[i - 1 + l*n] for 0<=l<=n
+
+    #Assert: jth column of matrix b is given by elements b[j*n + l] for 0<=l<=n
+
+    n= int(math.sqrt(len(a)))
+    
+    c=[0 for x in range(n*n)]
+
+    #assert: a,b and c are esttablished matrices of size n*n
+    
+    #This loop is constructing elements of matrix C
+    for i in range(n*n):
+    
+        val = 0
+        #this loop is evaluating on the basis of how it is defined in 1D in the question
+        for j in range(n):
+        #The first index, i%n computes the column no of the real life Matrix and n*j added with i%n and 
+        # a modulus with (n*n) gives us the required position of the row and the column no that is to be multiplied.
+        # For a given value of i, the factor of n*j traverses through a row in a real life matrix which when multiplied 
+        #with the second index gives the required element in matrix C
+            firstIndex = ((i%n)+ n*j)%(n*n)
+        #(i//n) essentially gives us the column of the second matrix the first index will multiply in the real life matrix
+        #We multiply by n since they are stored in a 1D array, so to get to the required index,
+        # n * column no gives us the starting pt of the column and adding j with each iteration
+        # traverses through the column in a real life matrix   
+            secondIndex = j + (i//n)*n
+        
+        #In this loop of j, the pre-existing values of val are added, s.t corresponding element of row gets multiplied
+        #by correponding column to give the required value in matrix C
+            val = val + a[firstIndex]*b[secondIndex]
+        #Storing the value in matrix C as per the convention given in the question.
+        c[i]=(val)
+    
+    return c
+    
+
+a = list(map(int, input().strip().split()))
+b = list(map(int, input().strip().split()))
+
+answer =mult(a,b)
+print(answer)
+
+#Time Complexity = O(n^3)
+#The first loop statement runs n*n times,
+#The second loop statement runs n times
+# Therefore, T(n) = c*(n^3)+ d which is O(n^3) where d is constant number of steps independent of n
+
+#space complexity = O(n^2) because we take an auxiliary matrix c of size n*n and 2-3 variables.
+# Space complexity = O(n^2) + k where k is a constant = O(n^2)
+
+#Algorithm follows from row by column multiplication

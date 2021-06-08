@@ -1,0 +1,41 @@
+# A4.
+
+# a.
+
+# i.
+# Floating point number are finite and the number of normalized floating point number that can be represented are 2*(beta-1)*(beta^(n-1))(U-L+1) + 1 where L and U are the exponential range. Beta is the base and n is the precision
+
+# ii.
+# Yes, Floating point number are dense. The density of numbers that are exactly represented by floating point numbers gets smaller as number gets bigger
+
+# iii.
+# Yes, floating point numbers are commutative for both addition and multiplication. An attempt at the proof can be like
+
+# x +* y = (x+y)(1+ delta) = (y+x)(1+ delta) = y +* x
+# x ** y = (x*y)(1+ delta) = (y*x)(1+ delta) = y ** x
+
+# iv.
+# No, floating point numbers are not associative for neither multiplication, nor addition and it can be disproved by example
+# (241.567 + 22.67834) + 0.0004 = 264.245 + 0.0004 = 264.245
+# 241.567 + (22.67834 + 0.0004) = 28.6787 + 241.567 = 264.246
+
+# Both are different
+# Similarly, for multiplication, can take 3 number with different significant digits to disprove
+
+# v.
+# Since integer arithmetic is exact but real arithmetic is not, the floating point numbers should not be used for calculus as they might produce different results which aren't exact. More over, for differentiation by definition, dx-->0 but here, we have a lower bound of machine epsilon which is as small as dx can be. Also, numerator has two terms being subtracted and might lead to los of significance
+
+# b.
+
+# 2x - 4y = 1
+# -2.998x + 6.001y = 2
+
+# => y= 699.8, x= 1400.1
+
+# For 2x - 4y = 1
+# -2.998x + 6y = 2
+
+# => y = 874.75, x = 1750.00
+
+# Therefore no, the problem is not stable because a minute change in the coefficient of y is producing a large change in the solution
+# Also, these can be proven using condition number since these are 2 lines almost parallel

@@ -1,0 +1,9 @@
+fun high(a,b,succ1,oper,f,iden,r,succ2)=
+	if a>b orelse r>b then iden
+	else oper(  f(a,r) , high(succ1(a),b,succ1,oper,f,iden,succ2(r),succ2)  );
+
+fun sum(a,b,c,d,f)=
+	let
+		fun term(i,c,d,f)= high(i,d,fn x=>x,op+,f,0,c,fn x=> x+1)
+	in high(a,b,fn x=>x+1,op+,fn (x,y)=>term(x,c,d,f),0,0,fn x=>x)
+	end;

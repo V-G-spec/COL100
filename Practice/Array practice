@@ -1,0 +1,42 @@
+def swap(ar):
+	n=len(ar)
+	for i in range(n//2):
+		ar[i],ar[-1-i]= ar[-1-i], ar[i]
+	return ar
+
+print(swap([1,3,5,7,2,9,8]))
+
+def add(ar,i,e): # add e to ith position of array i
+	b=[0 for i in range(len(ar)+1)]
+	j=0
+	k=0
+	#INV: b[left...i-1] = ar[left...i-1] ^ b[i]=e ^ b[i+1...right+1] = ar [i...right] 
+	while j < (len(ar)):
+		if k!=i:
+			b[k]=ar[j]
+			j+=1
+			k+=1
+		else:
+			b[k]=e
+			k+=1
+	print(b)
+
+add([1,2,5,9,4,3], 2, 193)
+
+
+def remove(e, ar):
+	n=len(ar)
+	if e not in ar:
+		print(ar)
+	else:
+		a=[0 for i in range(n-1)]
+		i=0
+		while ar[i]!=e:
+			i+=1
+			a[i]=ar[i]
+		while (i<n-1):
+			a[i]=ar[i+1]
+			i+=1
+		print(a)
+
+remove(13, [2,82,3,0,92,3,7])

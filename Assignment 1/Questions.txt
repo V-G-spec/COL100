@@ -1,0 +1,7 @@
+Factorial recursive and iterative
+
+x^n
+
+fibonacci
+
+integer square root recursive

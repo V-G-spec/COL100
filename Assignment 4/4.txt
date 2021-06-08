@@ -1,0 +1,28 @@
+exception Limit_Tends_To_1
+
+fun high(a, iden, succ1, oper1, succ2, t, oper2)=
+	if a=0 then iden
+	else if (a mod 2 =0) then high(succ1(a), oper2(t,iden), succ1, oper1, succ2, succ2(t), oper2)
+	else high(succ1(a), oper1(t, iden), succ1, oper1, succ2, succ2(t), oper2);
+
+fun mult(a,b)=
+	high(b, 0, fn x=> x div 2, fn (x,y)=>x+y, fn x=>2*x, a, fn (x,y)=>y);
+
+
+
+fun fast_pow(x,n)=
+	if x=0 andalso n=0 then raise Limit_Tends_To_1
+	else high(n, 1, fn k=> k div 2, op*, fn a=>a*a, x, fn (x,y)=>y);
+
+fun lb(x,_)=x;
+fun ub(_,y)=y;
+
+
+fun divide(x,y)=
+	let
+	fun oper1(c,(a,b))= 
+		if (2*(ub(a,b))+1<y) then (2*(lb(a,b)),2*(ub(a,b)) + 1) else (2*(lb(a,b))+1,2*(ub(a,b)) + 1 -y)
+	fun oper2(c,(a,b))= 
+		if (2*(ub(a,b))<y) then   (2*(lb(a,b)),2*(ub(a,b))) else (2*(lb(a,b)) + 1,2*(ub(a,b)) - y)
+	in high(x, (0,0), fn l=> l div 2, oper1, fn l=> l div 2, x, oper2)
+	end;

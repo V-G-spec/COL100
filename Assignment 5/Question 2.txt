@@ -1,0 +1,84 @@
+(*Merge Sort*)
+fun conquer(l1,[])=l1
+    |conquer([],l2)=l2
+    |conquer(x1::l1,x2::l2)=
+	if x1<x2 then x1::conquer(l1,x2::l2)
+	else x2::conquer(x1::l1,l2);	
+	
+fun divide([])=([],[])
+    |divide([x])=([x],[])
+    |divide(x1::x2::ls)= let val (l1,l2)= divide(ls) 
+                   in (x1::l1,x2::l2)
+                   end;
+
+fun      mergesort([])=[]
+	|mergesort([x])=[x]
+	|mergesort(ls)=
+		let val (l1,l2)= divide(ls)
+		in conquer(mergesort(l1),mergesort(l2))
+		end;
+
+
+(*Insert Sort*)
+fun arrange(x,[])=([x])
+	|arrange(x,y::ls)= if x<=y then x::y::ls
+			   else y::(arrange(x,ls))
+
+fun insertsort([])=[]
+	|insertsort(l1::ls)= arrange(l1,insertsort(ls));
+
+
+
+(* Seed for random number generation. *)
+val r = Random.rand (1,1);
+
+(* Generate a list containing n random integers. *)
+fun genlist n = if n = 0 then [] else (Random.randInt r)::(genlist (n-1));
+
+(* Sample function whose execution time we want to measure. *)
+fun mergesort l = case l of [] => [] | x::xs => (x-1)::(mergesort xs);
+
+(* Generate a list containing 100000 random integers. Use bigger lists for
+ * your experiments. *)
+val l = genlist 100000;
+
+(* Start the timer to begin measuring execution time. *)
+val timer = Timer.startCPUTimer ();
+
+(* Call the function to be measured. *)
+val dl = mergesort l;
+
+(* Check the time recorded by the timer. *)
+val time = Timer.checkCPUTimer timer;
+
+(* Convert to number of milliseconds. *)
+val ms = Time.toMilliseconds (#usr time);
+
+
+
+
+
+(* Seed for random number generation. *)
+val r = Random.rand (1,1);
+
+(* Generate a list containing n random integers. *)
+fun genlist n = if n = 0 then [] else (Random.randInt r)::(genlist (n-1));
+
+(* Sample function whose execution time we want to measure. *)
+fun insertsort l = case l of [] => [] | x::xs => (x-1)::(insertsort xs);
+
+(* Generate a list containing 100000 random integers. Use bigger lists for
+ * your experiments. *)
+val l = genlist 100000;
+
+(* Start the timer to begin measuring execution time. *)
+val timer = Timer.startCPUTimer ();
+
+(* Call the function to be measured. *)
+val dl = insertsort l;
+
+(* Check the time recorded by the timer. *)
+val time = Timer.checkCPUTimer timer;
+
+(* Convert to number of milliseconds. *)
+val ms = Time.toMilliseconds (#usr time);

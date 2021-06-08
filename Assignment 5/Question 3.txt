@@ -1,0 +1,35 @@
+exception First_Integer_Smaller
+
+fun     intadd(l1,[])=l1
+	|intadd([],l2)=l2
+	|intadd(x1::[],y::ls)= if (x1+y)>9 then ((x1+y) mod 10::intadd([1],ls)) else (x1+y)::intadd([],ls)
+	|intadd(x1::x2::x,y1::y)=
+		if x1+y1>9 then ((x1+y1) mod 10)::intadd((x2+1)::x,y)
+		else (x1+y1)::intadd(x2::x,y);
+
+
+fun     intsub(l1,[])=l1
+	|intsub(x1::[],y::ls)= 
+				if (x1>=y) andalso ls=[] then [(x1-y)]   (*Because assumed that first integer>second*)
+				else raise First_Integer_Smaller 
+	|intsub(x1::x2::x,y1::y)=
+		if x1<y1 then (x1+10-y1)::intsub((x2-1)::x,y)
+		else (x1-y1)::intsub(x2::x,y);
+
+fun   iszero([])=true
+	|iszero(x::ls)= if x=0 then iszero(ls) else false;
+
+fun     intmult(ls1,[])=[]
+	|intmult([],ls2)=[]
+	|intmult(ls1,ls2)=
+		let
+			fun iter(x,y,z)=
+				if iszero(y) then z
+				else iter(x,intsub(y,[1]),intadd(z,x))
+		in 
+			if(List.length(ls1)>List.length(ls2)) then iter(ls1,ls2,[]) else iter(ls2,ls1,[])
+		end;
+
+(*Invariant for Proof of Correctness for intmult:*)
+
+(*INV: (After i iterations where, 1<i<number stored in list y, z=i*number stored in x)^(After y iterations we get number stored in y* number stored in x ) *)

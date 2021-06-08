@@ -1,0 +1,62 @@
+(*Answer 2*)
+
+
+
+(*Ans 2a*)
+fun deriv f dx = ( fn x => ( f ( x + dx ) - f ( x ) ) / dx ) ;
+
+(real->real) -> real -> real -> real
+
+(*Ans 2b*)
+
+fun compose f g x = f(g(x));
+
+fun repeat (f,n)= 
+	let fun iter(f,g,n)=
+		if n=1 then f
+		else iter (fn x=> compose g f x,g,(n-1))
+	in iter(f,f,n)
+	end;
+
+(*Ans 2c*)
+
+
+(*do deriv n times, idk why it works*)
+fun nthderiv(n : int) =
+	repeat(fn f => deriv f 0.002, n);
+
+nthderiv 2 (fn x=> x*x*x) 2.0;
+
+
+(*Ans 3*)
+
+exception Overflow
+
+fun find(L,k)=
+	let fun recu(x::xs,k,i)= if i=k then x else recu(xs,k,i+2)
+		| recu([],k,i) = raise Overflow
+	in recu(L,k,1)
+	end;
+
+
+
+
+
+
+
+(*
+fun compose2(f, g, x) = f(g(x))
+
+fun deriv2(f, dx) = (fn x => ((f(x+dx)-f(x))/dx))
+
+
+(*this returns f^n
+fun repeat2(n, f) =
+	let
+		fun helper(i, func) = 
+			if(i = n) then func
+			else helper(i+1, fn x => compose f func x)
+	in
+		helper(0, fn x => x)
+	end;
+*)

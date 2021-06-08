@@ -1,0 +1,53 @@
+
+
+# fun intadd(l1,[])=l1
+
+# 	|intadd([],l2)=l2
+
+# 	|intadd(x1::[],y::ls)= if (x1+y)>9 then ((x1+y) mod 10::intadd([1],ls)) else (x1+y)::intadd([],ls)
+
+# 	|intadd(x1::x2::x,y1::y)=
+
+# 		if x1+y1>9 then ((x1+y1) mod 10)::intadd((x2+1)::x,y)
+
+# 		else (x1+y1)::intadd(x2::x,y);
+
+
+def addNum(N1, N2, n):
+	i=0
+	carry = 0
+	while (i<n):
+		carry=0	
+		N1[i], carry = (N1[i]+N2[i])%10, (N1[i]+N2[i])//10
+		
+		i+=1
+		if i==n:
+			if carry!=0:
+				N1.append(carry)
+		else:
+			N1[i]+=carry
+
+	print("Sum as reversed list is:",N1,"\nSum as list is:",N1[::-1],"\n Sum is:",*N1[::-1])
+
+
+def addNum2 (N1, N2, n ) :
+	i = 0
+	carry = 0
+	addition = [] 
+	while (i<n):
+		if N1[i] + N2[i] + carry> 10:
+			addition.append(N1[i] + N2[i] + carry - 10)
+			carry = 1
+			i+=1
+		else:
+			addition.append(N1[i] + N2[i] + carry)
+			carry = 0
+			i+=1
+	addition.append(carry)
+	print (addition)
+
+N1=[3,3,6]
+N2=[8,7,8]
+assert len(N1)==len(N2)
+n=len(N1)
+addNum2(N1,N2,n)

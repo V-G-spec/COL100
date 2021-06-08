@@ -1,0 +1,41 @@
+Question 1:
+
+Time Complexity:
+
+Worst case time complexity is when all elements are same in which case after all iterations of j for i=0, n will be equal to 1. Therefore time complexity is O(n)
+
+Best case is when all elements are different, j will only get 1 value for any i and therefore the time complexity is O(n)
+Hence the time complexity of given algorithm is O(n)
+
+
+Question 2:
+
+Time Complexity:
+Worst case time complexity is when element to be partitioned about is greater than/smaller than every element in the array in which case it will be O(n)
+
+Best case time complexity is when array is already partitioned in which case it will be O(n/2)
+We know that for any general array/element number of values attained by i + number of values attained by j = n and n-1>i,j>0
+
+
+Question 3:
+
+Time Complexity:
+The time comlpexity depends upon the pivot chosen
+If the pivot decreases size of array by 1 element (Worst case) the time complexity is O(n^2)
+If the pivot decreases size of array by some fraction (Maybe n/2) (Best case) the time complexity is O(n) (=n/2+n/4+n/8+.... < n)
+
+
+
+Question 4:
+
+Time complexity:
+T(n)=Σ(i-1) + c = n(n-1)/2 - n + c = n(n-3)/2= O(n^2)
+
+
+Question 5:
+
+Time Complexity:
+
+Worst Case:
+let n be size of max(dividend and divisor). The division function has n iterations with one assertion calling the subtraction function which again requires n iterations
+Time Complexity=O(n^2)

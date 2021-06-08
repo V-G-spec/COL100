@@ -1,0 +1,18 @@
+fun conquer(l1,[])=l1
+    |conquer([],l2)=l2
+    |conquer(x1::l1,x2::l2)=
+	if x1<x2 then x1::conquer(l1,x2::l2)
+	else x2::conquer(x1::l1,l2);	
+	
+fun divide([])=([],[])
+    |divide([x])=([x],[])
+    |divide(x1::x2::ls)= let val (l1,l2)= divide(ls) 
+                   in (x1::l1,x2::l2)
+                   end;
+
+fun      mergesort([])=[]
+	|mergesort([x])=[x]
+	|mergesort(ls)=
+		let val (l1,l2)= divide(ls)
+		in conquer(mergesort(l1),mergesort(l2))
+		end;

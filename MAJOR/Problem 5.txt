@@ -1,0 +1,26 @@
+Problem 5
+
+A1
+a.
+
+For x-->0, we will have a problem of loss of significant digits because a+x --> x
+Therefore, we can use the binomial expansion to prove that this is equivalent to x times a function which only contains additive terms
+
+b.
+For x>>a, we will have a problem of loss of significant digits because sqrt(x^2 - a) --> x
+So, let the first term be I1 and 2nd be I2 s.t. expression is I1-I2
+We can multiply divide the expression with I1+I2
+New expression -> a/(I1+I2)
+
+A3.
+1.1102230246251565e-16
+
+
+A2. 
+For a monotonically increasing function, we will add in decreasing order because in later terms, the significant digits would be in decimals if error is less
+And you need so Sum it (integrate basically) , from maan le x= 3 to 5
+Will you start adding values from 5 or from 3
+Answer is 5 kyuki waha pe value heighest hai
+And going from x=5 to 5 mai jo sum hoga
+It will be closer to actual value than jo x=3 se 4 ka dum hoga
+Hence increasing function ke liye decreasing order Mai sum karna hai
