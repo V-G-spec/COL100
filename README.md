@@ -1,4 +1,4 @@
-# COL100
+# COL100 - Introduction to Computer Science
 
 ## About
 Assignment, Quizzes, Exams of COL100 course (2020 spring semester)
